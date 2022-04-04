@@ -4,7 +4,7 @@ import __dirname from './util.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-app.use('/public', express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 const server = app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
