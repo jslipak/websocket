@@ -18,16 +18,26 @@ let products = [];
 let messages = [];
 
 io.on('connection', (socket) => {
+  const evalText = (text) => {
+    return text.match(/<[^>]*>/g);
+  };
   socket.broadcast.emit('notification');
   socket.emit('log', products);
   socket.emit('messages', messages);
   socket.on('addProduct', (data) => {
+    console.log(data);
     data.product.id = products.length;
+    if (evalText(data.product.name) !== null)
+      data.product.name = 'No seas tonto , no inyectest STYLE in Line ';
+
     products.push(data.product);
     console.log(products);
     io.emit('log', products);
   });
   socket.on('addMsg', (data) => {
+    console.log(evalText(data.msg));
+    if (evalText(data.msg) !== null)
+      data.msg = 'No seas tonto , no inyectest STYLE in Line ';
     messages.push(data);
     io.emit('logMsg', data);
   });

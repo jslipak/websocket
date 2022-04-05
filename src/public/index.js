@@ -9,6 +9,9 @@ const validateEmail = (email) => {
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   );
 };
+const evalText = (text) => {
+  return text.match(/<[^>]*>/g);
+};
 
 let user;
 
@@ -55,7 +58,9 @@ msgSender.addEventListener('click', (e) => {
   }
   if (!msgEmail.value || !msgInput.value)
     return Swal.fire('Todos los campos son obligatorios');
-
+  if (evalText(msgInput.value) !== null) {
+    return Swal.fire('No se permiten etiquetas HTML');
+  }
   //msgToAdd.insertAdjacentHTML(
   //'beforeend',
   //`<li><span style="color: blue;">${msgEmail.value}</span> , <span style="color:red"/>[2/23/2022]</span><span style="color:green"/> ${msgInput.value}</span></li>`,
@@ -104,5 +109,5 @@ socket.on('logMsg', (data) => {
 });
 
 socket.on('notification', (data) => {
-  alert('Alguien se conecto');
+  console.log('Alguien se conecto');
 });
